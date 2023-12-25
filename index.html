@@ -8,14 +8,21 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="storyContainer">
-        <h1>Интерактивная новелла</h1>
-        <img id="storyImage" src="" alt="Изображение">
-        <p id="storyText"></p>
-        <button onclick="nextPart()">Дальше</button>
-        <button onclick="saveProgress()">Сохранить прогресс</button>
-        <button onclick="loadProgress()">Загрузить прогресс</button>
-      </div>
+  <div id="storyContainer">
+    <h1>Интерактивная новелла</h1>
+    <img id="storyImage" src="" alt="Изображение">
+    <p id="storyText"></p>
+    <button onclick="nextPart()">Дальше</button>
+    <button onclick="openMenu()">Открыть меню</button>
+  </div>
+  
+  <div id="menuContainer" style="display:none;">
+    <h2>Выберите главу:</h2>
+    <ul id="menuList"></ul>
+    <button onclick="saveProgress()">Сохранить прогресс</button>
+    <button onclick="loadProgress()">Загрузить прогресс</button>
+    <button onclick="closeMenu()">Закрыть меню</button>
+  </div>
 
   <script src="js/main.js"></script>
   
