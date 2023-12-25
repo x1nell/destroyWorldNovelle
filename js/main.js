@@ -221,8 +221,9 @@ function setVolume(volume) {
 backgroundMusic.loop = true; // Чтобы музыка повторялась
 backgroundMusic.volume = 0.5; // Установите громкость по вашему усмотрению
 
-// Воспроизводим музыку
-playMusic();
+document.addEventListener("DOMContentLoaded", function() {
+  playMusic();
+});
 
 // Функция для воспроизведения музыки
 function playMusic() {
