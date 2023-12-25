@@ -1,12 +1,22 @@
 const storyParts = [
-  { text: "Текст части 1", imageUrl: "img/1a.jpg", choices: ["Выбор 1.1", "Выбор 1.2"] },
-  { text: "Текст части 2", imageUrl: "img/1a.jpg", choices: ["Выбор 2.1", "Выбор 2.2"] },
-  { text: "Текст части 3", imageUrl: "img/1a.jpg", choices: ["Выбор 3.1", "Выбор 3.2"] }
+  { text: "привет", imageUrl: "img/1a.jpg", choices: [
+    { text: "налево", nextPart: 1 },
+    { text: "направо", nextPart: 5 }
+  ]},
+  
+  { text: "текст налево", imageUrl: "img/1a.jpg", nextPart: 2 },
+  { text: "текст налево 2", imageUrl: "img/1a.jpg", nextPart: 3 },
+  { text: "текст налево 3", imageUrl: "img/1a.jpg", nextPart: 4 },
+  { text: "завершение налево", imageUrl: "img/end.jpg", nextPart: "end" },
+
+  { text: "текст направо", imageUrl: "img/1a.jpg", nextPart: 6 },
+  { text: "текст направо 2", imageUrl: "img/1a.jpg", nextPart: 7 },
+  { text: "текст направо 3", imageUrl: "img/1a.jpg", nextPart: 8 },
+  { text: "завершение направо", imageUrl: "img/end.jpg", nextPart: "end" },
   // Добавьте другие части и изображения по аналогии
 ];
 
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
-let isMusicPlaying = true;
 
 function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
@@ -23,7 +33,7 @@ function displayStoryPart(partIndex) {
   if (storyParts[partIndex].choices && storyParts[partIndex].choices.length > 0) {
     for (let i = 0; i < storyParts[partIndex].choices.length; i++) {
       const choiceButton = document.createElement('button');
-      choiceButton.textContent = storyParts[partIndex].choices[i];
+      choiceButton.textContent = storyParts[partIndex].choices[i].text;
       choiceButton.onclick = function() {
         makeChoice(i);
       };
@@ -34,21 +44,56 @@ function displayStoryPart(partIndex) {
 
 function makeChoice(choiceIndex) {
   const currentChoices = storyParts[currentPart].choices;
-  if (choiceIndex < currentChoices.length) {
-    // Обновляем текущую часть с учетом выбора
-    currentPart = currentChoices[choiceIndex].nextPart;
-    displayStoryPart(currentPart);
-    localStorage.setItem("currentPart", currentPart);
+
+  if (currentChoices && choiceIndex < currentChoices.length) {
+    const nextPart = currentChoices[choiceIndex].nextPart;
+
+    if (nextPart !== undefined && nextPart !== null) {
+      currentPart = nextPart;
+
+      if (currentPart === "end") {
+        displayEnd();
+      } else {
+        displayStoryPart(currentPart);
+        localStorage.setItem("currentPart", currentPart);
+      }
+    } else {
+      alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
+    }
+  } else {
+    alert("Неверный индекс выбора!");
   }
 }
 
+function displayEnd() {
+  alert("Вы достигли конца истории!");
+  // Дополнительные действия, если необходимо
+}
+
+// Первичное отображение части истории
+displayStoryPart(currentPart);
+
 function nextPart() {
-  currentPart++;
-  if (currentPart >= storyParts.length) {
-    currentPart = 0; // Циклическое повторение истории после последней части
+  const currentChoices = storyParts[currentPart].choices;
+
+  if (currentChoices && currentChoices.length > 0) {
+    // В этом случае, просто перейдем к первой доступной части из выборов
+    currentPart = currentChoices[0].nextPart;
+  } else if (storyParts[currentPart].nextPart !== undefined) {
+    // Если у текущей части есть атрибут nextPart, используем его
+    currentPart = storyParts[currentPart].nextPart;
+  } else {
+    // В противном случае, перейдем к следующей части после текущей
+    currentPart++;
   }
-  displayStoryPart(currentPart);
-  localStorage.setItem("currentPart", currentPart);
+
+  if (currentPart >= storyParts.length || currentPart === "end") {
+    // Если достигли конечной части или части с идентификатором "end", отобразим завершение истории
+    displayEnd();
+  } else {
+    displayStoryPart(currentPart);
+    localStorage.setItem("currentPart", currentPart);
+  }
 }
 
 function showMenu() {
