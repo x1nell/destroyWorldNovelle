@@ -216,11 +216,9 @@ function setVolume(volume) {
   audioElement.volume = parseFloat(volume);
 }
 
-const backgroundMusic = document.getElementById('backgroundMusic');
-
 // Настройки для аудио-элемента
 backgroundMusic.loop = true; // Чтобы музыка повторялась
-backgroundMusic.volume = 0.3; // Установите громкость по вашему усмотрению
+backgroundMusic.volume = 0.5; // Установите громкость по вашему усмотрению
 
 // Воспроизводим музыку
 playMusic();
