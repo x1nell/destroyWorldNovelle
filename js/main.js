@@ -17,6 +17,7 @@ const storyParts = [
 ];
 
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
+let isMusicPlaying = true;
 
 function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
@@ -215,11 +216,19 @@ function setVolume(volume) {
   audioElement.volume = parseFloat(volume);
 }
 
-// Добавляем код для воспроизведения фоновой музыки
-const backgroundMusic = new Audio('path/to/your/music.mp3');
+const backgroundMusic = document.getElementById('backgroundMusic');
+
+// Настройки для аудио-элемента
 backgroundMusic.loop = true; // Чтобы музыка повторялась
 backgroundMusic.volume = 0.5; // Установите громкость по вашему усмотрению
-backgroundMusic.play(); // Начинаем воспроизведение
+
+// Воспроизводим музыку
+playMusic();
+
+// Функция для воспроизведения музыки
+function playMusic() {
+  backgroundMusic.play();
+}
 
 // Сохраняем аудио-элемент в локальное хранилище, чтобы избежать его потери при обновлении страницы
 localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
