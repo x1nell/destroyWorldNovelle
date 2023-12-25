@@ -6,6 +6,7 @@ const storyParts = [
 ];
 
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
+let isMusicPlaying = true;
 
 function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
@@ -146,3 +147,36 @@ function updateMenuList() {
     menuList.appendChild(listItem);
   }
 }
+
+function toggleMusic() {
+  const musicControls = document.getElementById('musicControls');
+  musicControls.style.display = (musicControls.style.display === 'none') ? 'block' : 'none';
+}
+
+function playMusic() {
+  const audioElement = document.getElementById('backgroundMusic');
+  audioElement.play();
+  isMusicPlaying = true;
+}
+
+function pauseMusic() {
+  const audioElement = document.getElementById('backgroundMusic');
+  audioElement.pause();
+  isMusicPlaying = false;
+}
+
+function setVolume(volume) {
+  const audioElement = document.getElementById('backgroundMusic');
+  audioElement.volume = parseFloat(volume);
+}
+
+// Остальной код остается без изменений
+
+// Добавляем код для воспроизведения фоновой музыки
+const backgroundMusic = new Audio('path/to/your/music.mp3');
+backgroundMusic.loop = true; // Чтобы музыка повторялась
+backgroundMusic.volume = 0.5; // Установите громкость по вашему усмотрению
+backgroundMusic.play(); // Начинаем воспроизведение
+
+// Сохраняем аудио-элемент в локальное хранилище, чтобы избежать его потери при обновлении страницы
+localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
