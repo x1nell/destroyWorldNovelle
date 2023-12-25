@@ -170,8 +170,6 @@ function setVolume(volume) {
   audioElement.volume = parseFloat(volume);
 }
 
-// Остальной код остается без изменений
-
 // Добавляем код для воспроизведения фоновой музыки
 const backgroundMusic = new Audio('path/to/your/music.mp3');
 backgroundMusic.loop = true; // Чтобы музыка повторялась
