@@ -17,6 +17,7 @@ const storyParts = [
 ];
 
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
+
 let isMusicPlaying = true;
 
 function displayStoryPart(partIndex) {
