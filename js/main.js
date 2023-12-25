@@ -1,7 +1,7 @@
 const storyParts = [
-  { text: "Текст части 1", imageUrl: "img/1a.jpg" },
-  { text: "Текст части 2", imageUrl: "img/1a.jpg" },
-  { text: "Текст части 3", imageUrl: "img/1a.jpg" }
+  { text: "Текст части 1", imageUrl: "img/1a.jpg", choices: ["Выбор 1.1", "Выбор 1.2"] },
+  { text: "Текст части 2", imageUrl: "img/1a.jpg", choices: ["Выбор 2.1", "Выбор 2.2"] },
+  { text: "Текст части 3", imageUrl: "img/1a.jpg", choices: ["Выбор 3.1", "Выбор 3.2"] }
   // Добавьте другие части и изображения по аналогии
 ];
 
@@ -10,9 +10,35 @@ let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
 function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
   const storyImageElement = document.getElementById('storyImage');
-  
+  const choicesContainer = document.getElementById('choices');
+
   storyTextElement.textContent = storyParts[partIndex].text;
   storyImageElement.src = storyParts[partIndex].imageUrl;
+
+  // Очищаем предыдущие кнопки выбора
+  choicesContainer.innerHTML = "";
+
+  // Показываем кнопки выбора, если они есть
+  if (storyParts[partIndex].choices && storyParts[partIndex].choices.length > 0) {
+    for (let i = 0; i < storyParts[partIndex].choices.length; i++) {
+      const choiceButton = document.createElement('button');
+      choiceButton.textContent = storyParts[partIndex].choices[i];
+      choiceButton.onclick = function() {
+        makeChoice(i);
+      };
+      choicesContainer.appendChild(choiceButton);
+    }
+  }
+}
+
+function makeChoice(choiceIndex) {
+  const currentChoices = storyParts[currentPart].choices;
+  if (choiceIndex < currentChoices.length) {
+    // Обновляем текущую часть с учетом выбора
+    currentPart = currentChoices[choiceIndex].nextPart;
+    displayStoryPart(currentPart);
+    localStorage.setItem("currentPart", currentPart);
+  }
 }
 
 function nextPart() {
