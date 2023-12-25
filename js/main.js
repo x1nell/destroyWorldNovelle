@@ -7,12 +7,12 @@ const storyParts = [
   { text: "текст налево", imageUrl: "img/1a.jpg", nextPart: 2 },
   { text: "текст налево 2", imageUrl: "img/1a.jpg", nextPart: 3 },
   { text: "текст налево 3", imageUrl: "img/1a.jpg", nextPart: 4 },
-  { text: "завершение налево", imageUrl: "img/end.jpg", nextPart: "end" },
+  { text: "завершение налево", imageUrl: "img/1top.jpg", nextPart: "end" },
 
   { text: "текст направо", imageUrl: "img/1a.jpg", nextPart: 6 },
   { text: "текст направо 2", imageUrl: "img/1a.jpg", nextPart: 7 },
   { text: "текст направо 3", imageUrl: "img/1a.jpg", nextPart: 8 },
-  { text: "завершение направо", imageUrl: "img/end.jpg", nextPart: "end" },
+  { text: "завершение направо", imageUrl: "img/1top.jpg", nextPart: "end" },
   // Добавьте другие части и изображения по аналогии
 ];
 
