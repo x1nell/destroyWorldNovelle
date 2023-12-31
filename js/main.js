@@ -4,9 +4,9 @@ const storyParts = [
     { text: "направо", nextPart: 5 }
   ]},
   
-  { text: "текст налево", imageUrl: "img/1a.jpg", nextPart: 2 },
+  { text: "текст налево", imageUrl: "img/1a.jpg", music: "msc/Max Fry - stain.mp3", nextPart: 2 },
   { text: "текст налево 2", imageUrl: "img/1a.jpg", nextPart: 3 },
-  { text: "текст налево 3", imageUrl: "img/1a.jpg", nextPart: 4 },
+  { text: "текст налево 3", imageUrl: "img/1a.jpg", music: "msc/Max Fry - stain.mp3", nextPart: 4 },
   { text: "завершение налево", imageUrl: "img/1top.jpg", nextPart: "end" },
 
   { text: "текст направо", imageUrl: "img/1a.jpg", nextPart: 6 },
@@ -17,13 +17,20 @@ const storyParts = [
 ];
 
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
-
 let isMusicPlaying = true;
+let backgroundMusic = document.getElementById('backgroundMusic');
 
 function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
   const storyImageElement = document.getElementById('storyImage');
   const choicesContainer = document.getElementById('choices');
+
+ 
+
+  if (storyParts[partIndex].music && isMusicPlaying) {
+    backgroundMusic.src = storyParts[partIndex].music;
+    backgroundMusic.play();
+  }
 
   storyTextElement.textContent = storyParts[partIndex].text;
   storyImageElement.src = storyParts[partIndex].imageUrl;
@@ -56,6 +63,7 @@ function makeChoice(choiceIndex) {
       if (currentPart === "end") {
         displayEnd();
       } else {
+        // Передвигаемся к следующей части без остановки фоновой музыки
         displayStoryPart(currentPart);
         localStorage.setItem("currentPart", currentPart);
       }
@@ -93,6 +101,7 @@ function nextPart() {
     // Если достигли конечной части или части с идентификатором "end", отобразим завершение истории
     displayEnd();
   } else {
+    // Передвигаемся к следующей части без остановки фоновой музыки
     displayStoryPart(currentPart);
     localStorage.setItem("currentPart", currentPart);
   }
@@ -232,3 +241,4 @@ function playMusic() {
 
 // Сохраняем аудио-элемент в локальное хранилище, чтобы избежать его потери при обновлении страницы
 localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
+
