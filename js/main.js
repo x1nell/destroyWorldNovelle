@@ -83,27 +83,43 @@ function displayEnd() {
 // Первичное отображение части истории
 displayStoryPart(currentPart);
 
-function nextPart() {
-  const currentChoices = storyParts[currentPart].choices;
+document.body.style.cursor = "pointer"; // Устанавливаем курсор по умолчанию на стрелку
 
-  if (currentChoices && currentChoices.length > 0) {
-    // В этом случае, просто перейдем к первой доступной части из выборов
-    currentPart = currentChoices[0].nextPart;
-  } else if (storyParts[currentPart].nextPart !== undefined) {
-    // Если у текущей части есть атрибут nextPart, используем его
-    currentPart = storyParts[currentPart].nextPart;
-  } else {
-    // В противном случае, перейдем к следующей части после текущей
-    currentPart++;
-  }
+function nextPart(event) {
+  // Получаем координаты клика
+  const clickX = event.clientX;
+  const clickY = event.clientY;
 
-  if (currentPart >= storyParts.length || currentPart === "end") {
-    // Если достигли конечной части или части с идентификатором "end", отобразим завершение истории
-    displayEnd();
-  } else {
-    // Передвигаемся к следующей части без остановки фоновой музыки
-    displayStoryPart(currentPart);
-    localStorage.setItem("currentPart", currentPart);
+  // Получаем координаты и размеры изображения
+  const imageElement = document.getElementById('storyImage');
+  const imageRect = imageElement.getBoundingClientRect();
+
+  // Проверяем, находится ли клик внутри радиуса изображения
+  const distance = Math.sqrt((clickX - imageRect.left - imageRect.width / 2) ** 2 + (clickY - imageRect.top - imageRect.height / 2) ** 2);
+
+  // Если клик внутри радиуса, продолжаем выполнение функции nextPart()
+  if (distance <= imageRect.width / 2) {
+    const currentChoices = storyParts[currentPart].choices;
+
+    if (currentChoices && currentChoices.length > 0) {
+      // В этом случае, просто перейдем к первой доступной части из выборов
+      currentPart = currentChoices[0].nextPart;
+    } else if (storyParts[currentPart].nextPart !== undefined) {
+      // Если у текущей части есть атрибут nextPart, используем его
+      currentPart = storyParts[currentPart].nextPart;
+    } else {
+      // В противном случае, перейдем к следующей части после текущей
+      currentPart++;
+    }
+
+    if (currentPart >= storyParts.length || currentPart === "end") {
+      // Если достигли конечной части или части с идентификатором "end", отобразим завершение истории
+      displayEnd();
+    } else {
+      // Передвигаемся к следующей части без остановки фоновой музыки
+      displayStoryPart(currentPart);
+      localStorage.setItem("currentPart", currentPart);
+    }
   }
 }
 
@@ -241,4 +257,5 @@ function playMusic() {
 
 // Сохраняем аудио-элемент в локальное хранилище, чтобы избежать его потери при обновлении страницы
 localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
+
 
