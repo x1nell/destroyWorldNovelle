@@ -259,3 +259,4 @@ function playMusic() {
 localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
 
 
+
