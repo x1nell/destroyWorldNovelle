@@ -1,9 +1,10 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', 'Verdana', sans-serif;
     background-color: #000;
     color: #fff;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* Отключаем прокрутку */
   }
   
   #storyContainer {
@@ -13,20 +14,21 @@ body {
   }
   
   #storyImage {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 100vh; /* Заполняем экран по высоте */
+    object-fit: cover; /* Заполняем изображение без искажений */
     border-radius: 8px;
-    position: relative;
-    z-index: -1;
   }
   
   #storyText {
-    font-size: 18px;
-    margin-top: -150px;
+    font-size: 30px;
+    margin-top: -80px;
     position: relative;
     z-index: 1;
     background-color: rgba(51, 51, 51, 0.8);
-    padding: 40px;
+    padding: 19px;
+    border: 2px solid rgb(155, 160, 155);
+    border-radius: 30px;
   }
   
   #choices {
@@ -40,14 +42,14 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 24px;
+    font-size: 50px;
     cursor: pointer;
     color: #fff;
-    z-index: 2; /* Помещаем кнопку поверх остальных элементов */
+    z-index: 2;
   }
   
   #menuButton:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
   
   #choices button {
@@ -56,14 +58,14 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #3498db;
+    background-color: #3f4142;
     color: #fff;
-    border: none;
-    border-radius: 5px;
+    border: 2px solid rgb(155, 160, 155);
+    border-radius: 20px;
   }
   
   #choices button:hover {
-    background-color: #2980b9;
+    background-color: #515355;
   }
   
   #menuContainer {
