@@ -8,10 +8,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="storyContainer">
+  <div id="storyContainer" onclick="nextPart(event)">
     <img id="storyImage" src="" alt="Изображение">
     <p id="storyText"></p>
-    <button onclick="nextPart()">Дальше</button>
     <div id="choices"></div> <!-- Добавленный элемент для отображения кнопок выбора -->
     <button onclick="openMenu()">Открыть меню</button>
   </div>
