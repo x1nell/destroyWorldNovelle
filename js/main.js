@@ -4,12 +4,12 @@ const storyParts = [
     { text: "направо", nextPart: 5 }
   ]},
   
-  { text: "текст налево", imageUrl: "img/1a.jpg", music: "msc/Max Fry - stain.mp3", nextPart: 2 },
+  { text: "текст налево", imageUrl: "img/1a.jpg", music: "msc/Conor Maynard - Hollywood's Bleeding _ Numb.mp3", nextPart: 2 },
   { text: "текст налево 2", imageUrl: "img/1a.jpg", nextPart: 3 },
-  { text: "текст налево 3", imageUrl: "img/1a.jpg", music: "msc/Max Fry - stain.mp3", nextPart: 4 },
+  { text: "текст налево 3", imageUrl: "img/1a.jpg", nextPart: 4 },
   { text: "завершение налево", imageUrl: "img/1top.jpg", nextPart: "end" },
 
-  { text: "текст направо", imageUrl: "img/1a.jpg", nextPart: 6 },
+  { text: "текст направо", imageUrl: "img/1a.jpg", music: "msc/Conor Maynard - Hollywood's Bleeding _ Numb.mp3", nextPart: 6 },
   { text: "текст направо 2", imageUrl: "img/1a.jpg", nextPart: 7 },
   { text: "текст направо 3", imageUrl: "img/1a.jpg", nextPart: 8 },
   { text: "завершение направо", imageUrl: "img/1top.jpg", nextPart: "end" },
@@ -24,8 +24,6 @@ function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
   const storyImageElement = document.getElementById('storyImage');
   const choicesContainer = document.getElementById('choices');
-
- 
 
   if (storyParts[partIndex].music && isMusicPlaying) {
     backgroundMusic.src = storyParts[partIndex].music;
@@ -257,6 +255,7 @@ function playMusic() {
 
 // Сохраняем аудио-элемент в локальное хранилище, чтобы избежать его потери при обновлении страницы
 localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
+
 
 
 
