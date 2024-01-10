@@ -4,13 +4,13 @@ const storyParts = [
     { text: "направо", nextPart: 5 }
   ]},
   
-  { text: "текст налево", imageUrl: "img/1a.jpg", music: "msc/Conor Maynard - Hollywood's Bleeding _ Numb.mp3", nextPart: 2 },
-  { text: "текст налево 2", imageUrl: "img/1a.jpg", nextPart: 3 },
+  { text: "текст налево", imageUrl: "img/1a.jpg",  music: "msc/Conor Maynard - Hollywood's Bleeding _ Numb.mp3", nextPart: 2 },
+  { text: "текст налево 2", imageUrl: "img/1a.jpg", characterImage: "img/persona/katsumi.png", nextPart: 3 },
   { text: "текст налево 3", imageUrl: "img/1a.jpg", nextPart: 4 },
   { text: "завершение налево", imageUrl: "img/1top.jpg", nextPart: "end" },
 
-  { text: "текст направо", imageUrl: "img/1a.jpg", music: "msc/Conor Maynard - Hollywood's Bleeding _ Numb.mp3", nextPart: 6 },
-  { text: "текст направо 2", imageUrl: "img/1a.jpg", nextPart: 7 },
+  { text: "текст направо", imageUrl: "img/1a.jpg",  music: "msc/Conor Maynard - Hollywood's Bleeding _ Numb.mp3", nextPart: 6 },
+  { text: "текст направо 2", imageUrl: "img/1a.jpg", characterImage: "img/persona/katsumi.png", nextPart: 7 },
   { text: "текст направо 3", imageUrl: "img/1a.jpg", nextPart: 8 },
   { text: "завершение направо", imageUrl: "img/1top.jpg", nextPart: "end" },
   // Добавьте другие части и изображения по аналогии
@@ -24,14 +24,25 @@ function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
   const storyImageElement = document.getElementById('storyImage');
   const choicesContainer = document.getElementById('choices');
+  const characterImageElement = document.getElementById('characterImage');
+
 
   if (storyParts[partIndex].music && isMusicPlaying) {
     backgroundMusic.src = storyParts[partIndex].music;
     backgroundMusic.play();
   }
 
+
   storyTextElement.textContent = storyParts[partIndex].text;
   storyImageElement.src = storyParts[partIndex].imageUrl;
+
+  
+  // Устанавливаем изображение персонажа
+  if (storyParts[partIndex].characterImage) {
+    characterImageElement.innerHTML = `<img src="${storyParts[partIndex].characterImage}" alt="Персонаж">`;
+  } else {
+    characterImageElement.innerHTML = ""; // Очищаем изображение персонажа, если не предусмотрено
+  }
 
   // Очищаем предыдущие кнопки выбора
   choicesContainer.innerHTML = "";
@@ -48,6 +59,7 @@ function displayStoryPart(partIndex) {
     }
   }
 }
+
 
 function makeChoice(choiceIndex) {
   const currentChoices = storyParts[currentPart].choices;
@@ -109,6 +121,31 @@ function nextPart(event) {
       // В противном случае, перейдем к следующей части после текущей
       currentPart++;
     }
+
+// Новая функция для обработки клика по изображению
+function handleImageClick() {
+  const currentChoices = storyParts[currentPart].choices;
+
+  if (currentChoices && currentChoices.length > 0) {
+    // Перейдем к первой доступной части из выборов, если они есть
+    currentPart = currentChoices[0].nextPart;
+  } else if (storyParts[currentPart].nextPart !== undefined) {
+    // Иначе используем атрибут nextPart текущей части
+    currentPart = storyParts[currentPart].nextPart;
+  } else {
+    // В противном случае, перейдем к следующей части после текущей
+    currentPart++;
+  }
+
+  if (currentPart >= storyParts.length || currentPart === "end") {
+    // Если достигли конечной части или части с идентификатором "end", отобразим завершение истории
+    displayEnd();
+  } else {
+    // Передвигаемся к следующей части без остановки фоновой музыки
+    displayStoryPart(currentPart);
+    localStorage.setItem("currentPart", currentPart);
+  }
+}
 
     if (currentPart >= storyParts.length || currentPart === "end") {
       // Если достигли конечной части или части с идентификатором "end", отобразим завершение истории
@@ -255,7 +292,3 @@ function playMusic() {
 
 // Сохраняем аудио-элемент в локальное хранилище, чтобы избежать его потери при обновлении страницы
 localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
-
-
-
-
