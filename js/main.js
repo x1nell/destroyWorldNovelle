@@ -72,20 +72,6 @@ function displayStoryPart(partIndex) {
     characterImageElement.innerHTML = "";
   }
 
-  const text = storyParts[partIndex].text;
-  let index = 0;
-
-  function displayNextLetter() {
-    storyTextElement.textContent += text[index];
-    index++;
-    if (index < text.length) {
-      setTimeout(displayNextLetter, 50);
-    }
-  }
-
-  storyTextElement.textContent = '';
-  displayNextLetter();
-
   choicesContainer.innerHTML = "";
   if (storyParts[partIndex].choices && storyParts[partIndex].choices.length > 0) {
     for (let i = 0; i < storyParts[partIndex].choices.length; i++) {
