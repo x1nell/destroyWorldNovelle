@@ -132,3 +132,34 @@ body {
 	z-index: 2;
 	pointer-events: none;
 }
+
+#inventoryButton {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-size: 50px;
+    cursor: pointer;
+    color: #fff;
+    z-index: 5;
+}
+
+#inventory {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 200px;
+    left: 20px;
+    z-index: 5;
+}
+
+.inventorySlot {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+    border: 3px solid rgb(155, 160, 155);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
