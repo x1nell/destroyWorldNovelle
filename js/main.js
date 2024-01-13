@@ -138,6 +138,24 @@ function nextPart(event) {
   }
 }
 
+let isInventoryOpen = false;
+
+function toggleInventory() {
+    const inventory = document.getElementById('inventory');
+    isInventoryOpen = !isInventoryOpen;
+
+    if (isInventoryOpen) {
+        inventory.style.display = 'flex';
+    } else {
+        inventory.style.display = 'none';
+    }
+}
+
+function toggleMenu() {
+    const menuContainer = document.getElementById('menuContainer');
+    menuContainer.style.display = (menuContainer.style.display === 'none') ? 'block' : 'none';
+}
+
 function showMenu() {
   const menuContainer = document.getElementById('menuContainer');
   const menuList = document.getElementById('menuList');
