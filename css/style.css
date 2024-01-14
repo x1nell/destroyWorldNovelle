@@ -98,7 +98,6 @@ body {
 	text-decoration: underline;
 }
 
-/* Стили для кнопки "Управление музыкой" */
 #toggleMusicButton {
     position: absolute;
     top: -3px;
@@ -116,7 +115,6 @@ body {
 	z-index: 6;
 }
 
-/* Стили для контейнера управления музыкой */
 #musicControls {
     display: none;
     position: absolute;
