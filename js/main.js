@@ -152,22 +152,17 @@ function toggleInventory() {
 }
 
 function toggleMenu() {
-    const menuContainer = document.getElementById('menuContainer');
-    menuContainer.style.display = (menuContainer.style.display === 'none') ? 'block' : 'none';
+  const menuContainer = document.getElementById('menuContainer');
+  if (menuContainer.style.display === 'none' || menuContainer.style.display === '') {
+      showMenu();
+  } else {
+      closeMenu();
+  }
 }
 
 function showMenu() {
+  updateMenuList(); 
   const menuContainer = document.getElementById('menuContainer');
-  const menuList = document.getElementById('menuList');
-  menuList.innerHTML = "";
-
-  for (let i = 0; i < storyParts.length; i++) {
-    const menuItem = document.createElement('li');
-    menuItem.textContent = `Глава ${i + 1}`;
-    menuItem.onclick = () => goToPart(i);
-    menuList.appendChild(menuItem);
-  }
-
   menuContainer.style.display = "block";
 }
 
@@ -189,7 +184,6 @@ function openMenu() {
 function closeMenu() {
   document.getElementById('menuContainer').style.display = "none";
 }
-
 function saveProgress() {
   const currentSlot = prompt("Введите номер ячейки сохранения (1-" + MAX_SAVED_SLOTS + "):");
   const slotIndex = parseInt(currentSlot) - 1;
@@ -230,8 +224,10 @@ function updateMenuList() {
   for (let i = 0; i < storyParts.length; i++) {
     const listItem = document.createElement('li');
     listItem.textContent = "Глава " + (i + 1) + ": " + storyParts[i].text;
+    listItem.dataset.partIndex = i;
     listItem.onclick = function () {
-      currentPart = i;
+      const partIndex = parseInt(this.dataset.partIndex, 10);
+      currentPart = partIndex;
       displayStoryPart(currentPart);
       closeMenu();
     };
@@ -241,8 +237,16 @@ function updateMenuList() {
   for (let i = 0; i < MAX_SAVED_SLOTS; i++) {
     const listItem = document.createElement('li');
     listItem.textContent = "Ячейка " + (i + 1) + ": " + (savedProgress[i] !== null ? "Прогресс сохранен" : "Пусто");
+    listItem.dataset.slotIndex = i;
     listItem.onclick = function () {
-      loadProgress(i);
+      const slotIndex = parseInt(this.dataset.slotIndex, 10);
+      if (savedProgress[slotIndex] !== null) {
+        currentPart = savedProgress[slotIndex];
+        displayStoryPart(currentPart);
+        closeMenu();
+      } else {
+        alert("В этой ячейке нет сохраненного прогресса!");
+      }
     };
     menuList.appendChild(listItem);
   }
