@@ -1,49 +1,48 @@
 const storyParts = [
   {
     text: "Что вершит судьбу человечества?",
-    imageUrl: "img/1fon.png",
-    characterImageUrl: "img/persona/katsumi.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 1
   },
   {
     text: "Жизнь, или ожидание смерти - заставляет тебя двигаться дальше?",
     music: "msc/1track.mp3",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 2
   },
   {
     text: "Однажды и ты сможешь пройти свой путь до конца",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 3
   },
   {
     text: "Но сможешь ли ты вспомнить все моменты своей жизни после её окончания?",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 4
   },
   {
     text: "Существует ли в этом смысл? Почему у каждого живого существа есть свои рамки в мире?",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 5
   },
   {
     text: "Почему люди должны сидеть взаперти - как птицы в клетках, ведь пташки могут летать, но человек ограничил им доступ к свободе.",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 6
   },
   {
     text: "Так кто ограничил людям возможности?",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 7
   },
   {
     text: "Почему я должен сидеть в этой стереотипной для людей клетке, во избежание опасности, которой не было уже много лет?",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 8
   },
   {
     text: "Быть может ничего и не существует на той стороне мира? - Подумал Кацуми",
-    imageUrl: "img/1fon.png",
+    imageUrl: "img/foni/1fon.png",
     nextPart: 9
   }
 ];
