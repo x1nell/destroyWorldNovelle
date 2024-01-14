@@ -11,7 +11,7 @@
 <body>
 	<div id="storyContainer" onclick="nextPart(event)">
 		<div id="toggleMusicButton" onclick="toggleMusic()">♬</div>
-		<div id="menuButton" onclick="openMenu()">☰</div> <img id="storyImage" src="" alt="Изображение">
+		<div id="menuButton" onclick="toggleMenu()">☰</div> <img id="storyImage" src="" alt="Изображение">
 		<div id="storyText"></div>
 		<div id="choices"></div>
 	</div>
@@ -22,8 +22,7 @@
 		<ul id="menuList"></ul>
 		<button onclick="saveProgress()">Сохранить прогресс</button>
 		<button onclick="loadProgress()">Загрузить прогресс</button>
-		<button onclick="closeMenu()">Закрыть меню</button>
-	</div>
+	  </div>
 	<div id="inventoryButton" onclick="toggleInventory()">I</div>
         <div id="inventory" style="display:none;">
             <div class="inventorySlot">Слот 1</div>
@@ -43,4 +42,3 @@
 </body>
 
 </html>
-
