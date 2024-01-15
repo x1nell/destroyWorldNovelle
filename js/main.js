@@ -41,10 +41,27 @@ const storyParts = [
     nextPart: 8
   },
   {
-    text: "Быть может ничего и не существует на той стороне мира? - Подумал Кацуми",
+    text: "Надо найти тут ключ",
     imageUrl: "img/foni/1fon.png",
     nextPart: 9
-  }
+  },
+  {
+    text: "1",
+    imageUrl: "img/foni/1fon.png",
+    itemImageUrl: "img/predmeti/key.png",
+    addItemToInventory: true,
+    nextPart: 10
+  },
+  {
+    text: "Ты нашёл ключ",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: 11
+  },
+  {
+    text: "ТЕКСТ ПОСЛЕ КЛЮЧА2",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: 12
+  },
 ];
 
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
@@ -54,12 +71,25 @@ let backgroundMusic = document.getElementById('backgroundMusic');
 function displayStoryPart(partIndex) {
   const storyTextElement = document.getElementById('storyText');
   const storyImageElement = document.getElementById('storyImage');
+  const itemImageUrl = storyParts[partIndex].itemImageUrl;
   const choicesContainer = document.getElementById('choices');
   const characterImageElement = document.getElementById('characterImage');
 
   if (storyParts[partIndex].music && isMusicPlaying) {
     backgroundMusic.src = storyParts[partIndex].music;
     backgroundMusic.play();
+  }
+
+  if (itemImageUrl && storyParts[partIndex].addItemToInventory) {
+    const canAddItem = canAddItemToScreen(partIndex);
+    if (canAddItem) {
+      displayItemOnScreen(itemImageUrl);
+    } else {
+      // Если предмет нельзя добавить на экран, используем обычное изображение
+      storyImageElement.src = storyParts[partIndex].imageUrl;
+    }
+  } else {
+    storyImageElement.src = storyParts[partIndex].imageUrl;
   }
 
   storyTextElement.textContent = storyParts[partIndex].text;
@@ -82,6 +112,19 @@ function displayStoryPart(partIndex) {
       choicesContainer.appendChild(choiceButton);
     }
   }
+}
+
+function displayItemOnScreen(itemImageUrl) {
+  const itemImage = document.createElement('img');
+  itemImage.src = itemImageUrl;
+  itemImage.classList.add('itemOnScreen');
+  const storyContainer = document.getElementById('storyContainer');
+  storyContainer.appendChild(itemImage);
+
+  itemImage.addEventListener('click', function() {
+    addToInventory(itemImageUrl);
+    itemImage.remove(); // Remove the item from the screen after adding to the inventory
+  });
 }
 
 function makeChoice(choiceIndex) {
@@ -131,8 +174,16 @@ function nextPart(event) {
     if (currentPart >= storyParts.length || currentPart === "end") {
       displayEnd();
     } else {
-      displayStoryPart(currentPart);
-      localStorage.setItem("currentPart", currentPart);
+      const itemImageUrl = storyParts[currentPart].itemImageUrl;
+      if (itemImageUrl && storyParts[currentPart].addItemToInventory) {
+        const canAddItem = canAddItemToScreen(currentPart);
+        if (canAddItem) {
+          displayItemOnScreen(itemImageUrl);
+        }
+      } else {
+        displayStoryPart(currentPart);
+        localStorage.setItem("currentPart", currentPart);
+      }
     }
   }
 }
@@ -148,6 +199,34 @@ function toggleInventory() {
     } else {
         inventory.style.display = 'none';
     }
+}
+
+function addToInventory(itemImageUrl) {
+  const inventorySlots = document.querySelectorAll('.inventorySlot');
+  for (let i = 0; i < inventorySlots.length; i++) {
+    const slot = inventorySlots[i];
+    if (!slot.hasItem) {
+      slot.style.backgroundImage = `url(${itemImageUrl})`;
+      slot.hasItem = true;
+      break;
+    }
+  }
+}
+
+function canAddItemToScreen(partIndex) {
+  const inventorySlots = document.querySelectorAll('.inventorySlot');
+  // Измените условие, чтобы предмет добавлялся только в определенных сценариях
+  return storyParts[partIndex].addItemToInventory && !inventoryIsFull(inventorySlots);
+}
+
+
+function inventoryIsFull(inventorySlots) {
+  for (let i = 0; i < inventorySlots.length; i++) {
+    if (!inventorySlots[i].hasItem) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function toggleMenu() {
