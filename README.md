@@ -1,4 +1,8 @@
 ## **CONQUERING A BROKEN WORLD** 
+<p float="left">
+  <img src="img/oblojka/1.jpg" width="300" />
+  <img src="https://github.com/x1nell/destroyWorldNovelle/assets/123414028/d409b894-f888-44cb-8ad1-396727f2b298" width="300" />
+</p>
 ## Дорогие посетители,
 С великим удовольствием представляю вам мой проект — визуальную новеллу под названием **CONQUERING A BROKEN WORLD** (Покорение сломанного мира).
 Этот проект был создан с любовью и страстью, и я надеюсь, что каждый из вас найдет в нем нечто особенное.
@@ -14,9 +18,5 @@
 ## `https://x1nell.github.io/destroyWorldNovelle/`
 https://x1nell.github.io/destroyWorldNovelle/
 ## Можно скачать репозиторий и запустить новеллу на своем компьютере
-<p float="left">
-  <img src="img/oblojka/1.jpg" width="300" />
-  <img src="https://github.com/x1nell/destroyWorldNovelle/assets/123414028/d409b894-f888-44cb-8ad1-396727f2b298" width="300" />
-</p>
 ## Желаю вам приятного прохождения, захватывающих впечатлений и открытия для себя новых граней искусства визуальных новелл!
 ## x1nell
