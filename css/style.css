@@ -189,3 +189,13 @@ body {
     align-items: center;
     color: #fff;
 }
+
+.itemOnScreen {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100px; /* Задайте желаемые размеры */
+	height: 100px;
+	cursor: pointer;
+}
