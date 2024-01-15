@@ -48,7 +48,9 @@ const storyParts = [
   {
     text: "1",
     imageUrl: "img/foni/1fon.png",
-    itemImageUrl: "img/predmeti/key.png",
+    onItemAppear: function() {
+      displayItemOnScreen("img/predmeti/key.png", 100, 200);
+    },
     addItemToInventory: true,
     nextPart: 10
   },
@@ -111,7 +113,9 @@ function displayStoryPart(partIndex) {
     backgroundMusic.src = storyParts[partIndex].music;
     backgroundMusic.play();
   }
-
+  if (storyParts[partIndex].onItemAppear) {
+    storyParts[partIndex].onItemAppear();
+  }
   if (itemImageUrl && storyParts[partIndex].addItemToInventory) {
     const canAddItem = canAddItemToScreen(partIndex);
     if (canAddItem) {
@@ -145,12 +149,20 @@ function displayStoryPart(partIndex) {
     }
   }
 }
+
 let isItemVisible = false;
-function displayItemOnScreen(itemImageUrl) {
+
+function displayItemOnScreen(itemImageUrl, x, y) {
   const itemImage = document.createElement('img');
   itemImage.src = itemImageUrl;
   itemImage.classList.add('itemOnScreen');
   const storyContainer = document.getElementById('storyContainer');
+  
+  // Установка координат
+  itemImage.style.position = 'absolute';
+  itemImage.style.left = `${x}px`;
+  itemImage.style.top = `${y}px`;
+
   storyContainer.appendChild(itemImage);
 
   // Установите флаг, что предмет виден
