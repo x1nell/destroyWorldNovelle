@@ -49,7 +49,7 @@ const storyParts = [
     text: "1",
     imageUrl: "img/foni/1fon.png",
     onItemAppear: function() {
-      displayItemOnScreen("img/predmeti/key.png", 100, 200);
+      displayItemOnScreen("img/predmeti/key.png", 200, 200);
     },
     addItemToInventory: true,
     nextPart: 10
