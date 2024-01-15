@@ -1,8 +1,8 @@
 ## **CONQUERING A BROKEN WORLD** 
 
 <p float="left">
-  <img src="img/oblojka/1.jpg" width="300" />
-  <img src="https://github.com/x1nell/destroyWorldNovelle/assets/123414028/d409b894-f888-44cb-8ad1-396727f2b298" width="300" />
+  <img src="img/oblojka/1.jpg" width="200" />
+  <img src="https://github.com/x1nell/destroyWorldNovelle/assets/123414028/d409b894-f888-44cb-8ad1-396727f2b298" width="200" />
 </p>
 
 ## Дорогие посетители,
