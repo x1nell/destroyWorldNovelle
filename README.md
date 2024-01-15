@@ -18,7 +18,5 @@ https://x1nell.github.io/destroyWorldNovelle/
   <img src="img/oblojka/1.jpg" width="300" />
   <img src="https://github.com/x1nell/destroyWorldNovelle/assets/123414028/d409b894-f888-44cb-8ad1-396727f2b298" width="300" />
 </p>
-![image](https://github.com/x1nell/destroyWorldNovelle/assets/123414028/d409b894-f888-44cb-8ad1-396727f2b298)
-## <img src="img/oblojka/1.jpg" alt="Пример" width="200"/>
 ## Желаю вам приятного прохождения, захватывающих впечатлений и открытия для себя новых граней искусства визуальных новелл!
 ## x1nell
