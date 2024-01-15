@@ -60,7 +60,39 @@ const storyParts = [
   {
     text: "ТЕКСТ ПОСЛЕ КЛЮЧА2",
     imageUrl: "img/foni/1fon.png",
-    nextPart: 12
+    choices: [
+      { text: "налево", nextPart: 12 },
+      { text: "направо", nextPart: 15 }],
+  },
+  {
+    text: "текст налево",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: 13
+  },
+  {
+    text: "текст налево 2",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: 14
+  },
+  {
+    text: "текст налево 3",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: "end" 
+  },
+  {
+    text: "текст направо",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: 16
+  },
+  {
+    text: "текст направо 2",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: 17
+  },
+  {
+    text: "текст направо 3",
+    imageUrl: "img/foni/1fon.png",
+    nextPart: "end" 
   },
 ];
 
@@ -113,7 +145,7 @@ function displayStoryPart(partIndex) {
     }
   }
 }
-
+let isItemVisible = false;
 function displayItemOnScreen(itemImageUrl) {
   const itemImage = document.createElement('img');
   itemImage.src = itemImageUrl;
@@ -121,9 +153,14 @@ function displayItemOnScreen(itemImageUrl) {
   const storyContainer = document.getElementById('storyContainer');
   storyContainer.appendChild(itemImage);
 
+  // Установите флаг, что предмет виден
+  isItemVisible = true;
+
   itemImage.addEventListener('click', function() {
     addToInventory(itemImageUrl);
-    itemImage.remove(); // Remove the item from the screen after adding to the inventory
+    itemImage.remove();
+    // Сбросьте флаг при клике на предмет
+    isItemVisible = false;
   });
 }
 
@@ -133,7 +170,7 @@ function makeChoice(choiceIndex) {
     const nextPart = currentChoices[choiceIndex].nextPart;
     if (nextPart !== undefined && nextPart !== null) {
       currentPart = nextPart;
-      if (currentPart === "end") {
+      if (currentPart === "end" || currentPart >= storyParts.length) {
         displayEnd();
       } else {
         displayStoryPart(currentPart);
@@ -161,29 +198,39 @@ function nextPart(event) {
   const imageRect = imageElement.getBoundingClientRect();
   const distance = Math.sqrt((clickX - imageRect.left - imageRect.width / 2) ** 2 + (clickY - imageRect.top - imageRect.height / 2) ** 2);
 
-  if (distance <= imageRect.width / 2) {
+  // Проверка, есть ли предмет на экране
+  if (isItemVisible && distance <= imageRect.width / 2) {
+    // Обработка клика по изображению предмета
     const currentChoices = storyParts[currentPart].choices;
     if (currentChoices && currentChoices.length > 0) {
-      currentPart = currentChoices[0].nextPart;
-    } else if (storyParts[currentPart].nextPart !== undefined) {
-      currentPart = storyParts[currentPart].nextPart;
-    } else {
-      currentPart++;
-    }
-
-    if (currentPart >= storyParts.length || currentPart === "end") {
-      displayEnd();
-    } else {
-      const itemImageUrl = storyParts[currentPart].itemImageUrl;
-      if (itemImageUrl && storyParts[currentPart].addItemToInventory) {
-        const canAddItem = canAddItemToScreen(currentPart);
-        if (canAddItem) {
-          displayItemOnScreen(itemImageUrl);
+      const nextPart = currentChoices[0].nextPart;
+      if (nextPart !== undefined && nextPart !== null) {
+        currentPart = nextPart;
+        if (currentPart === "end") {
+          displayEnd();
+        } else {
+          displayStoryPart(currentPart);
+          localStorage.setItem("currentPart", currentPart);
         }
+      } else {
+        alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
+      }
+    } else {
+      alert("Неверный индекс выбора!");
+    }
+  } else {
+    // Обработка клика вне изображения предмета
+    const nextPart = storyParts[currentPart].nextPart;
+    if (nextPart !== undefined && nextPart !== null) {
+      currentPart = nextPart;
+      if (currentPart === "end") {
+        displayEnd();
       } else {
         displayStoryPart(currentPart);
         localStorage.setItem("currentPart", currentPart);
       }
+    } else {
+      alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
     }
   }
 }
