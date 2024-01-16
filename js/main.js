@@ -1,10 +1,12 @@
 const storyParts = [
   {
+    speaker: "Кацуми:",
     text: "Что вершит судьбу человечества?",
     imageUrl: "img/foni/1fon.png",
     nextPart: 1
   },
   {
+    speaker: "Кацуми:",
     text: "Жизнь, или ожидание смерти - заставляет тебя двигаться дальше?",
     music: "msc/1track.mp3",
     imageUrl: "img/foni/1fon.png",
@@ -108,7 +110,13 @@ function displayStoryPart(partIndex) {
   const itemImageUrl = storyParts[partIndex].itemImageUrl;
   const choicesContainer = document.getElementById('choices');
   const characterImageElement = document.getElementById('characterImage');
-
+  const speakerElement = document.getElementById('speaker');
+  // Отображение имени говорящего
+  if (storyParts[partIndex].speaker) {
+    speakerElement.textContent = storyParts[partIndex].speaker;
+  } else {
+    speakerElement.textContent = ""; // Очищаем, если имя не указано
+  }
   if (storyParts[partIndex].music && isMusicPlaying) {
     backgroundMusic.src = storyParts[partIndex].music;
     backgroundMusic.play();
