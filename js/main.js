@@ -88,7 +88,7 @@ const storyParts = [
   {
     speaker: "Мама:",
     text: "и Черный Янь столкнулись,",
-    imageUrl: "img/foni/vospomHome.png",
+    imageUrl: "img/foni/korolevstvoBlack.png",
     nextPart: 15
   },
   {
