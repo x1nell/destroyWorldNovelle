@@ -13,90 +13,207 @@ const storyParts = [
     nextPart: 2
   },
   {
+    speaker: "Кацуми:",
     text: "Однажды и ты сможешь пройти свой путь до конца",
     imageUrl: "img/foni/1fon.png",
     nextPart: 3
   },
   {
+    speaker: "Кацуми:",
     text: "Но сможешь ли ты вспомнить все моменты своей жизни после её окончания?",
     imageUrl: "img/foni/1fon.png",
     nextPart: 4
   },
   {
+    speaker: "Кацуми:",
     text: "Существует ли в этом смысл? Почему у каждого живого существа есть свои рамки в мире?",
     imageUrl: "img/foni/1fon.png",
     nextPart: 5
   },
   {
+    speaker: "Кацуми:",
     text: "Почему люди должны сидеть взаперти - как птицы в клетках, ведь пташки могут летать, но человек ограничил им доступ к свободе.",
     imageUrl: "img/foni/1fon.png",
     nextPart: 6
   },
   {
+    speaker: "Кацуми:",
     text: "Так кто ограничил людям возможности?",
     imageUrl: "img/foni/1fon.png",
     nextPart: 7
   },
   {
+    speaker: "Кацуми:",
     text: "Почему я должен сидеть в этой стереотипной для людей клетке, во избежание опасности, которой не было уже много лет?",
     imageUrl: "img/foni/1fon.png",
     nextPart: 8
   },
   {
-    text: "Надо найти тут ключ",
+    speaker: "Кацуми:",
+    text: "быть может ничего и не существует на той стороне мира?",
     imageUrl: "img/foni/1fon.png",
     nextPart: 9
   },
   {
-    text: "1",
+    speaker: "Кацуми:",
+    text: "Эти мысли начали меня пробуждать к новому дню...",
     imageUrl: "img/foni/1fon.png",
-    onItemAppear: function() {
-      displayItemOnScreen("img/predmeti/key.png", 200, 200);
-    },
-    addItemToInventory: true,
     nextPart: 10
   },
   {
-    text: "Ты нашёл ключ",
-    imageUrl: "img/foni/1fon.png",
+    speaker: "Кацуми:",
+    text: "Что за странный сон мне приснился?",
+    imageUrl: "img/foni/bedroomHome.png",
+    music: "msc/2track.mp3",
     nextPart: 11
   },
   {
-    text: "ТЕКСТ ПОСЛЕ КЛЮЧА2",
-    imageUrl: "img/foni/1fon.png",
-    choices: [
-      { text: "налево", nextPart: 12 },
-      { text: "направо", nextPart: 15 }],
+    speaker: "Кацуми:",
+    text: "Снова начали всплывать слова матери:",
+    imageUrl: "img/foni/bedroomHome.png",
+    nextPart: 12
   },
   {
-    text: "текст налево",
-    imageUrl: "img/foni/1fon.png",
+    speaker: "Мама:",
+    text: "В далеком и загадочном мире, где судьбу решает человек, произошло неожиданное событие.",
+    imageUrl: "img/foni/vospomHome.png",
     nextPart: 13
   },
   {
-    text: "текст налево 2",
-    imageUrl: "img/foni/1fon.png",
+    speaker: "Мама:",
+    text: "Величественные королевства Белое Инь...",
+    imageUrl: "img/foni/korolevstvoWhite.png",
     nextPart: 14
   },
   {
-    text: "текст налево 3",
-    imageUrl: "img/foni/1fon.png",
-    nextPart: "end" 
+    speaker: "Мама:",
+    text: "и Черный Янь столкнулись,",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 15
   },
   {
-    text: "текст направо",
-    imageUrl: "img/foni/1fon.png",
+    speaker: "Мама:",
+    text: "Множество противоположностей и споров повлияло на острое лезвие судьбы.",
+    imageUrl: "img/foni/vospomHome.png",
     nextPart: 16
   },
   {
-    text: "текст направо 2",
-    imageUrl: "img/foni/1fon.png",
+    speaker: "Мама:",
+    text: "Ведь теперь границы разделяли людей, отправившихся по полностью противоположным путям.",
+    imageUrl: "img/foni/vospomHome.png",
     nextPart: 17
   },
   {
-    text: "текст направо 3",
-    imageUrl: "img/foni/1fon.png",
-    nextPart: "end" 
+    speaker: "Мама:",
+    text: "Со временем королевства укрепились, прошло много лет, но ни один человек из Инь так и не переступил порог Янь.",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 18
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Чем могло быть вызвано такое решение?",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 19
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Может быть, это было из-за страха или предубеждений, присущим обоим королевствам?",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 20
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Или одержимость своими истинными ценностями, не позволяла проникнуть на территорию Янь? ",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 21
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Интересно в чём же истина?",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 22
+  },
+  {
+    speaker: "Мама:",
+    text: "Для обычных людей Король нашего королевства не уточнил, но думаю тебе предстоит всё узнать мой дорогой,",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 23
+  },
+  {
+    speaker: "Кацуми:",
+    text: "И после этих слов и суждений, я на мгновение ощутил необычное чувство чего-то волшебного и необычного - исходящего от мамы,",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 24
+  },
+  {
+    speaker: "Кацуми:",
+    text: "не знаю на что это было похоже, но я не придал этому значения. ",
+    imageUrl: "img/foni/vospomHome.png",
+    nextPart: 25
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Ладно, пора бы вставать - самый простой способ отойти от мыслей",
+    imageUrl: "img/foni/bedroomHome.png",
+    nextPart: 26
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Мама оставила завтрак и ушла",
+    imageUrl: "img/foni/kitchenHome.png",
+    nextPart: 27
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Хорошо покушал и отправился к выходу",
+    imageUrl: "img/foni/kitchenHome.png",
+    nextPart: 28
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Мама снова закрыла меня - в целях безопасности",
+    imageUrl: "img/foni/kitchenHome.png",
+    nextPart: 29
+  },
+  {
+    speaker: "Кацуми:",
+    text: "И ключ забыла оставить - но я помню где лежит запасной - в моей комнате",
+    imageUrl: "img/foni/kitchenHome.png",
+    nextPart: 30
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Должен быть где то здесь - мама специально оставляет тут запасной  ключ",
+    imageUrl: "img/foni/bedroomHome.png",
+    nextPart: 31
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Надо найти тут ключ",
+    imageUrl: "img/foni/bedroomHome.png",
+    onItemAppear: function() {
+      displayItemOnScreen("img/predmeti/keyHome.png", 1400, 450);
+    },
+    addItemToInventory: true,
+    nextPart: 32
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Отлично - ключ найден - отправляюсь к выходу",
+    imageUrl: "img/foni/bedroomHome.png",
+    nextPart: 33
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Открыв дверь - я снова ощутил небольшую свободу...",
+    imageUrl: "img/foni/kitchenHome.png",
+    nextPart: 34
+  },
+  {
+    speaker: "Кацуми:",
+    text: "Красота в мелочах...",
+    imageUrl: "img/foni/aroundHome.png",
+    nextPart: 35
   },
 ];
 
@@ -365,19 +482,6 @@ function loadProgress() {
 function updateMenuList() {
   const menuList = document.getElementById('menuList');
   menuList.innerHTML = "";
-
-  for (let i = 0; i < storyParts.length; i++) {
-    const listItem = document.createElement('li');
-    listItem.textContent = "Глава " + (i + 1) + ": " + storyParts[i].text;
-    listItem.dataset.partIndex = i;
-    listItem.onclick = function () {
-      const partIndex = parseInt(this.dataset.partIndex, 10);
-      currentPart = partIndex;
-      displayStoryPart(currentPart);
-      closeMenu();
-    };
-    menuList.appendChild(listItem);
-  }
 
   for (let i = 0; i < MAX_SAVED_SLOTS; i++) {
     const listItem = document.createElement('li');
