@@ -189,6 +189,7 @@ body {
     justify-content: center;
     align-items: center;
     color: #fff;
+	background-size: cover;
 }
 
 .itemOnScreen {
