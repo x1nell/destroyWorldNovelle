@@ -228,11 +228,10 @@ function displayStoryPart(partIndex) {
   const choicesContainer = document.getElementById('choices');
   const characterImageElement = document.getElementById('characterImage');
   const speakerElement = document.getElementById('speaker');
-  // Отображение имени говорящего
   if (storyParts[partIndex].speaker) {
     speakerElement.textContent = storyParts[partIndex].speaker;
   } else {
-    speakerElement.textContent = ""; // Очищаем, если имя не указано
+    speakerElement.textContent = ""; 
   }
   if (storyParts[partIndex].music && isMusicPlaying) {
     backgroundMusic.src = storyParts[partIndex].music;
@@ -246,7 +245,6 @@ function displayStoryPart(partIndex) {
     if (canAddItem) {
       displayItemOnScreen(itemImageUrl);
     } else {
-      // Если предмет нельзя добавить на экран, используем обычное изображение
       storyImageElement.src = storyParts[partIndex].imageUrl;
     }
   } else {
@@ -283,20 +281,17 @@ function displayItemOnScreen(itemImageUrl, x, y) {
   itemImage.classList.add('itemOnScreen');
   const storyContainer = document.getElementById('storyContainer');
   
-  // Установка координат
   itemImage.style.position = 'absolute';
   itemImage.style.left = `${x}px`;
   itemImage.style.top = `${y}px`;
 
   storyContainer.appendChild(itemImage);
 
-  // Установите флаг, что предмет виден
   isItemVisible = true;
 
   itemImage.addEventListener('click', function() {
     addToInventory(itemImageUrl);
     itemImage.remove();
-    // Сбросьте флаг при клике на предмет
     isItemVisible = false;
   });
 }
@@ -335,9 +330,7 @@ function nextPart(event) {
   const imageRect = imageElement.getBoundingClientRect();
   const distance = Math.sqrt((clickX - imageRect.left - imageRect.width / 2) ** 2 + (clickY - imageRect.top - imageRect.height / 2) ** 2);
 
-  // Проверка, есть ли предмет на экране
   if (isItemVisible && distance <= imageRect.width / 2) {
-    // Обработка клика по изображению предмета
     const currentChoices = storyParts[currentPart].choices;
     if (currentChoices && currentChoices.length > 0) {
       const nextPart = currentChoices[0].nextPart;
@@ -356,7 +349,6 @@ function nextPart(event) {
       alert("Неверный индекс выбора!");
     }
   } else {
-    // Обработка клика вне изображения предмета
     const nextPart = storyParts[currentPart].nextPart;
     if (nextPart !== undefined && nextPart !== null) {
       currentPart = nextPart;
@@ -399,7 +391,6 @@ function addToInventory(itemImageUrl) {
 
 function canAddItemToScreen(partIndex) {
   const inventorySlots = document.querySelectorAll('.inventorySlot');
-  // Измените условие, чтобы предмет добавлялся только в определенных сценариях
   return storyParts[partIndex].addItemToInventory && !inventoryIsFull(inventorySlots);
 }
 
