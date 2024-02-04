@@ -6,7 +6,19 @@
 	<link rel="icon" type="image/png" href="img/oblojka/1.jpg">
 	<meta charset="utf-8">
 	<title>destroyed world</title>
-	<link rel="stylesheet" href="css/style.css"> </head>
+	<script> 
+        var styleLink = document.createElement("link"); 
+        styleLink.rel = "stylesheet"; 
+        styleLink.type = "text/css"; 
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            styleLink.href = "css/mobile.css"; 
+        } else {  
+            styleLink.href = "css/style.css"; 
+        }
+        document.head.appendChild(styleLink); 
+    </script>
+</head>
 
 <body>
 	<div id="toggleMusicButton" onclick="toggleMusic()">♬</div>
@@ -24,7 +36,7 @@
 		<ul id="menuList"></ul>
 		<button onclick="saveProgress()">Сохранить прогресс</button>
 		<button onclick="loadProgress()">Загрузить прогресс</button>
-	  </div>
+	</div>
 	<div id="inventoryButton" onclick="toggleInventory()">I</div>
         <div id="inventory" style="display:none;">
             <div class="inventorySlot">Слот 1</div>
