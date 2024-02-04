@@ -1,0 +1,219 @@
+body { 
+    font-family: 'Arial', 'Verdana', sans-serif; 
+    background-color: #000; 
+    color: #fff; 
+    margin: 0; 
+    padding: 0; 
+    overflow: hidden; 
+} 
+ 
+#storyContainer { 
+    text-align: center; 
+    position: relative; 
+    max-width: 100%; 
+ 
+} 
+ 
+#storyImage { 
+    width: 100%; 
+    height: 95vh; 
+    object-fit: cover; 
+    border-radius: 8px; 
+    z-index: 1; 
+    pointer-events: none; 
+} 
+ 
+#storyText { 
+    font-size: 40px; 
+    margin-top: -40px; 
+    position: relative; 
+    background-color: rgba(51, 51, 51, 0.8); 
+    padding: 15px; 
+    border: 2px solid rgb(155, 160, 155); 
+    border-radius: 15px; 
+    z-index: 3; 
+} 
+ 
+#choices { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 4; 
+} 
+ 
+#menuContainer button { 
+    display: block; 
+    margin: 10px auto; 
+    padding: 10px 20px; 
+    font-size: 40px; 
+    cursor: pointer; 
+    color: #fff; 
+    background-color: #555; 
+    border: 2px solid #888; 
+    border-radius: 20px; 
+    transition: background-color 0.3s, border-color 0.3s; 
+} 
+ 
+#menuContainer button:hover { 
+    background-color: #777; 
+    border-color: #aaa; 
+} 
+ 
+#menuButton { 
+    position: absolute; 
+    top: 8px; 
+    right: 10px; 
+    font-size: 90px; 
+    cursor: pointer; 
+    color: #fff; 
+    z-index: 5; 
+} 
+ 
+#choices button { 
+    display: block; 
+    margin: 10px auto; 
+    padding: 10px 16px; 
+    font-size: 30px;  
+    cursor: pointer; 
+    background-color: #3f4142; 
+    color: #fff; 
+    border: 2px solid rgb(155, 160, 155); 
+    border-radius: 20px; 
+    z-index: 4; 
+} 
+ 
+#menuContainer { 
+    display: none; 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 40px; 
+    background-color: rgba(51, 51, 51, 0.8); 
+    padding: 150px; 
+    border-radius: 30px; 
+    text-align: center; 
+    z-index: 6; 
+} 
+ 
+#menuList { 
+    list-style: none; 
+    padding: 0; 
+} 
+ 
+#menuList li { 
+    cursor: pointer; 
+    margin: 10px 0; 
+} 
+ 
+#toggleMusicButton { 
+    position: absolute; 
+    top: -3px; 
+    right: 80px; 
+    font-size: 90px; 
+    cursor: pointer; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 10px; 
+    z-index: 5; 
+} 
+ 
+#musicControls { 
+    display: none; 
+    position: absolute; 
+    top: 100px; 
+    right: 10px; 
+    background-color: #34393f; 
+    padding: 10px; 
+    border-radius: 8px; 
+    text-align: center; 
+    z-index: 6; 
+    width: 200px; 
+    height: 200px;
+    margin: 60px;  
+    margin-top: 40px;
+} 
+ 
+#musicControls button { 
+    background-color: #5c5d5e; 
+    color: #fff; 
+    z-index: 6; 
+    font-size: 30px; 
+} 
+ 
+#musicControls button:hover { 
+    background-color: #3d3a3a; 
+    z-index: 6; 
+} 
+ 
+#musicControls input { 
+    width: 100%; 
+    margin-top: 10px; 
+    z-index: 6; 
+} 
+ 
+#characterImage { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    max-width: 100%; 
+    height: auto; 
+    z-index: 2; 
+    pointer-events: none; 
+} 
+ 
+#inventoryButton {
+    position: absolute; 
+    top: 18px; 
+    left: 20px; 
+    font-size: 90px; 
+    cursor: pointer; 
+    color: #fff; 
+    z-index: 5; 
+} 
+     
+#inventory { 
+    display: flex; 
+    flex-direction: column; 
+    position: absolute; 
+    top: 150px; 
+    left: 20px; 
+    z-index: 5; 
+} 
+     
+.inventorySlot { 
+    width: 200px;  
+    height: 200px; 
+    margin-bottom: 10px; 
+    border: 2px solid rgb(155, 160, 155); 
+    border-radius: 8px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    color: #fff; 
+    background-size: cover; 
+} 
+     
+.itemOnScreen { 
+    position: absolute; 
+    width: 100px; 
+    height: 100px; 
+    cursor: pointer; 
+} 
+     
+#speaker { 
+    position: absolute; 
+    top: 91%; 
+    left: 2%; 
+    font-size: 40px; 
+    color: #fff; 
+    padding: 15px; 
+    z-index: 4; 
+    pointer-events: none; 
+    background-color: rgba(51, 51, 51, 0.8); 
+    border: 2px solid rgb(155, 160, 155); 
+    border-radius: 25px 40px; 
+}
