@@ -217,206 +217,142 @@ const storyParts = [
   },
 ];
 
+
 let currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
 let isMusicPlaying = true;
-let backgroundMusic = document.getElementById('backgroundMusic');
-
-function displayStoryPart(partIndex) {
-  const storyTextElement = document.getElementById('storyText');
-  const storyImageElement = document.getElementById('storyImage');
-  const itemImageUrl = storyParts[partIndex].itemImageUrl;
-  const choicesContainer = document.getElementById('choices');
-  const characterImageElement = document.getElementById('characterImage');
-  const speakerElement = document.getElementById('speaker');
-  if (storyParts[partIndex].speaker) {
-    speakerElement.textContent = storyParts[partIndex].speaker;
-  } else {
-    speakerElement.textContent = ""; 
-  }
-  if (storyParts[partIndex].music && isMusicPlaying) {
-    backgroundMusic.src = storyParts[partIndex].music;
-    backgroundMusic.play();
-  }
-  if (storyParts[partIndex].onItemAppear) {
-    storyParts[partIndex].onItemAppear();
-  }
-  if (itemImageUrl && storyParts[partIndex].addItemToInventory) {
-    const canAddItem = canAddItemToScreen(partIndex);
-    if (canAddItem) {
-      displayItemOnScreen(itemImageUrl);
-    } else {
-      storyImageElement.src = storyParts[partIndex].imageUrl;
-    }
-  } else {
-    storyImageElement.src = storyParts[partIndex].imageUrl;
-  }
-
-  storyTextElement.textContent = storyParts[partIndex].text;
-  storyImageElement.src = storyParts[partIndex].imageUrl;
-
-  if (storyParts[partIndex].characterImageUrl) {
-    characterImageElement.innerHTML = `<img src="${storyParts[partIndex].characterImageUrl}" alt="Персонаж">`;
-  } else {
-    characterImageElement.innerHTML = "";
-  }
-
-  choicesContainer.innerHTML = "";
-  if (storyParts[partIndex].choices && storyParts[partIndex].choices.length > 0) {
-    for (let i = 0; i < storyParts[partIndex].choices.length; i++) {
-      const choiceButton = document.createElement('button');
-      choiceButton.textContent = storyParts[partIndex].choices[i].text;
-      choiceButton.onclick = function () {
-        makeChoice(i);
-      };
-      choicesContainer.appendChild(choiceButton);
-    }
-  }
-}
+const backgroundMusic = document.getElementById('backgroundMusic');
+const storyTextElement = document.getElementById('storyText');
+const storyImageElement = document.getElementById('storyImage');
+const choicesContainer = document.getElementById('choices');
+const characterImageElement = document.getElementById('characterImage');
+const speakerElement = document.getElementById('speaker');
+const storyContainer = document.getElementById('storyContainer');
+const inventory = document.getElementById('inventory');
+const menuContainer = document.getElementById('menuContainer');
+const menuList = document.getElementById('menuList');
+const musicControls = document.getElementById('musicControls');
+const MAX_SAVED_SLOTS = 3;
 
 let isItemVisible = false;
+let isInventoryOpen = false;
+let savedProgress = JSON.parse(localStorage.getItem("savedProgress")) || Array(MAX_SAVED_SLOTS).fill(null);
 
-function displayItemOnScreen(itemImageUrl, x, y) {
-  const itemImage = document.createElement('img');
-  itemImage.src = itemImageUrl;
-  itemImage.classList.add('itemOnScreen');
-  const storyContainer = document.getElementById('storyContainer');
-  
-  itemImage.style.position = 'absolute';
-  itemImage.style.left = `${x}px`;
-  itemImage.style.top = `${y}px`;
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.5;
 
-  storyContainer.appendChild(itemImage);
+function displayStoryPart(partIndex) {
+  const part = storyParts[partIndex];
 
-  isItemVisible = true;
+  speakerElement.textContent = part.speaker || "";
+  if (part.music && isMusicPlaying) {
+    backgroundMusic.src = part.music;
+    backgroundMusic.play();
+  }
+  if (part.onItemAppear) part.onItemAppear();
 
-  itemImage.addEventListener('click', function() {
-    addToInventory(itemImageUrl);
-    itemImage.remove();
-    isItemVisible = false;
+  const canAddItem = part.itemImageUrl && part.addItemToInventory && canAddItemToScreen(partIndex);
+  canAddItem ? displayItemOnScreen(part.itemImageUrl) : storyImageElement.src = part.imageUrl;
+
+  storyTextElement.textContent = part.text;
+  characterImageElement.innerHTML = part.characterImageUrl ? `<img src="${part.characterImageUrl}" alt="Персонаж">` : "";
+
+  choicesContainer.innerHTML = "";
+  part.choices?.forEach((choice, i) => {
+    const choiceButton = document.createElement('button');
+    choiceButton.textContent = choice.text;
+    choiceButton.onclick = () => makeChoice(i);
+    choicesContainer.appendChild(choiceButton);
   });
 }
 
+function startNewGame() {
+    currentPart = 0;
+    localStorage.setItem("currentPart", currentPart);
+    displayStoryPart(currentPart);
+    hideTitleScreen();
+}
+
+function continueGame() {
+    currentPart = parseInt(localStorage.getItem("currentPart")) || 0;
+    displayStoryPart(currentPart);
+    hideTitleScreen();
+}
+function displayItemOnScreen(itemImageUrl, x = 0, y = 0) {
+  const itemImage = document.createElement('img');
+  itemImage.src = itemImageUrl;
+  itemImage.classList.add('itemOnScreen');
+  Object.assign(itemImage.style, { position: 'absolute', left: `${x}px`, top: `${y}px` });
+  storyContainer.appendChild(itemImage);
+
+  isItemVisible = true;
+  itemImage.onclick = () => {
+    addToInventory(itemImageUrl);
+    itemImage.remove();
+    isItemVisible = false;
+  };
+}
+
 function makeChoice(choiceIndex) {
-  const currentChoices = storyParts[currentPart].choices;
-  if (currentChoices && choiceIndex < currentChoices.length) {
-    const nextPart = currentChoices[choiceIndex].nextPart;
-    if (nextPart !== undefined && nextPart !== null) {
-      currentPart = nextPart;
-      if (currentPart === "end" || currentPart >= storyParts.length) {
-        displayEnd();
-      } else {
-        displayStoryPart(currentPart);
-        localStorage.setItem("currentPart", currentPart);
-      }
-    } else {
-      alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
-    }
-  } else {
-    alert("Неверный индекс выбора!");
-  }
+  const currentChoices = storyParts[currentPart]?.choices;
+  if (!currentChoices || choiceIndex >= currentChoices.length) return alert("Неверный индекс выбора!");
+
+  const nextPart = currentChoices[choiceIndex].nextPart;
+  if (nextPart === undefined || nextPart === null) return alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
+
+  currentPart = nextPart;
+  currentPart === "end" || currentPart >= storyParts.length ? displayEnd() : displayStoryPart(currentPart);
+  localStorage.setItem("currentPart", currentPart);
 }
 
 function displayEnd() {
   alert("Вы достигли конца истории!");
 }
 
-displayStoryPart(currentPart);
-document.body.style.cursor = "pointer";
-
 function nextPart(event) {
-  const clickX = event.clientX;
-  const clickY = event.clientY;
-  const imageElement = document.getElementById('storyImage');
-  const imageRect = imageElement.getBoundingClientRect();
-  const distance = Math.sqrt((clickX - imageRect.left - imageRect.width / 2) ** 2 + (clickY - imageRect.top - imageRect.height / 2) ** 2);
+  const { clientX: clickX, clientY: clickY } = event;
+  const imageRect = storyImageElement.getBoundingClientRect();
+  const distance = Math.hypot(clickX - imageRect.left - imageRect.width / 2, clickY - imageRect.top - imageRect.height / 2);
 
   if (isItemVisible && distance <= imageRect.width / 2) {
-    const currentChoices = storyParts[currentPart].choices;
-    if (currentChoices && currentChoices.length > 0) {
-      const nextPart = currentChoices[0].nextPart;
-      if (nextPart !== undefined && nextPart !== null) {
-        currentPart = nextPart;
-        if (currentPart === "end") {
-          displayEnd();
-        } else {
-          displayStoryPart(currentPart);
-          localStorage.setItem("currentPart", currentPart);
-        }
-      } else {
-        alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
-      }
-    } else {
-      alert("Неверный индекс выбора!");
-    }
+    const nextPart = storyParts[currentPart]?.choices?.[0]?.nextPart;
+    if (nextPart === undefined || nextPart === null) return alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
+
+    currentPart = nextPart;
+    currentPart === "end" ? displayEnd() : displayStoryPart(currentPart);
+    localStorage.setItem("currentPart", currentPart);
   } else {
-    const nextPart = storyParts[currentPart].nextPart;
-    if (nextPart !== undefined && nextPart !== null) {
-      currentPart = nextPart;
-      if (currentPart === "end") {
-        displayEnd();
-      } else {
-        displayStoryPart(currentPart);
-        localStorage.setItem("currentPart", currentPart);
-      }
-    } else {
-      alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
-    }
+    const nextPart = storyParts[currentPart]?.nextPart;
+    if (nextPart === undefined || nextPart === null) return alert("Этот выбор не имеет следующей части. Пожалуйста, проверьте конфигурацию истории.");
+
+    currentPart = nextPart;
+    currentPart === "end" ? displayEnd() : displayStoryPart(currentPart);
+    localStorage.setItem("currentPart", currentPart);
   }
 }
 
-let isInventoryOpen = false;
-
 function toggleInventory() {
-    const inventory = document.getElementById('inventory');
-    isInventoryOpen = !isInventoryOpen;
-
-    if (isInventoryOpen) {
-        inventory.style.display = 'flex';
-    } else {
-        inventory.style.display = 'none';
-    }
+  isInventoryOpen = !isInventoryOpen;
+  inventory.style.display = isInventoryOpen ? 'flex' : 'none';
 }
 
 function addToInventory(itemImageUrl) {
-  const inventorySlots = document.querySelectorAll('.inventorySlot');
-  for (let i = 0; i < inventorySlots.length; i++) {
-    const slot = inventorySlots[i];
-    if (!slot.hasItem) {
-      slot.style.backgroundImage = `url(${itemImageUrl})`;
-      slot.hasItem = true;
-      break;
-    }
+  const emptySlot = Array.from(document.querySelectorAll('.inventorySlot')).find(slot => !slot.hasItem);
+  if (emptySlot) {
+    emptySlot.style.backgroundImage = `url(${itemImageUrl})`;
+    emptySlot.hasItem = true;
   }
 }
 
 function canAddItemToScreen(partIndex) {
-  const inventorySlots = document.querySelectorAll('.inventorySlot');
-  return storyParts[partIndex].addItemToInventory && !inventoryIsFull(inventorySlots);
+  return storyParts[partIndex]?.addItemToInventory && !inventoryIsFull();
 }
 
-
-function inventoryIsFull(inventorySlots) {
-  for (let i = 0; i < inventorySlots.length; i++) {
-    if (!inventorySlots[i].hasItem) {
-      return false;
-    }
-  }
-  return true;
+function inventoryIsFull() {
+  return Array.from(document.querySelectorAll('.inventorySlot')).every(slot => slot.hasItem);
 }
 
 function toggleMenu() {
-  const menuContainer = document.getElementById('menuContainer');
-  if (menuContainer.style.display === 'none' || menuContainer.style.display === '') {
-      showMenu();
-  } else {
-      closeMenu();
-  }
-}
-
-function showMenu() {
-  updateMenuList(); 
-  const menuContainer = document.getElementById('menuContainer');
-  menuContainer.style.display = "block";
+  menuContainer.style.display = menuContainer.style.display === 'none' || menuContainer.style.display === '' ? 'block' : 'none';
 }
 
 function goToPart(partIndex) {
@@ -425,103 +361,87 @@ function goToPart(partIndex) {
   closeMenu();
 }
 
-const MAX_SAVED_SLOTS = 3;
-let savedProgress = JSON.parse(localStorage.getItem("savedProgress")) || Array(MAX_SAVED_SLOTS).fill(null);
-
 function openMenu() {
-  showMenu();
+  toggleMenu();
   updateMenuList();
-  document.getElementById('menuContainer').style.display = "block";
 }
 
 function closeMenu() {
-  document.getElementById('menuContainer').style.display = "none";
+  menuContainer.style.display = 'none';
 }
-function saveProgress() {
-  const currentSlot = prompt("Введите номер ячейки сохранения (1-" + MAX_SAVED_SLOTS + "):");
-  const slotIndex = parseInt(currentSlot) - 1;
 
-  if (!isNaN(slotIndex) && slotIndex >= 0 && slotIndex < MAX_SAVED_SLOTS) {
-    savedProgress[slotIndex] = currentPart;
-    localStorage.setItem("savedProgress", JSON.stringify(savedProgress));
-    updateMenuList();
-    alert("Прогресс сохранен в ячейке " + (slotIndex + 1) + "!");
-  } else {
-    alert("Неправильный номер ячейки сохранения!");
-  }
+function saveProgress() {
+  const slotIndex = parseInt(prompt(`Введите номер ячейки сохранения (1-${MAX_SAVED_SLOTS}):`)) - 1;
+  if (isNaN(slotIndex) || slotIndex < 0 || slotIndex >= MAX_SAVED_SLOTS) return alert("Неправильный номер ячейки сохранения!");
+
+  savedProgress[slotIndex] = currentPart;
+  localStorage.setItem("savedProgress", JSON.stringify(savedProgress));
+  updateMenuList();
+  alert(`Прогресс сохранен в ячейке ${slotIndex + 1}!`);
 }
 
 function loadProgress() {
-  const selectedSlot = prompt("Введите номер ячейки сохранения (1-" + MAX_SAVED_SLOTS + "):");
-  const slotIndex = parseInt(selectedSlot) - 1;
+  const slotIndex = parseInt(prompt(`Введите номер ячейки сохранения (1-${MAX_SAVED_SLOTS}):`)) - 1;
+  if (isNaN(slotIndex) || slotIndex < 0 || slotIndex >= MAX_SAVED_SLOTS || savedProgress[slotIndex] === null) return alert("Неправильный номер ячейки сохранения или в этой ячейке нет сохраненного прогресса!");
 
-  if (!isNaN(slotIndex) && slotIndex >= 0 && slotIndex < MAX_SAVED_SLOTS) {
-    if (savedProgress[slotIndex] !== null) {
-      currentPart = savedProgress[slotIndex];
-      displayStoryPart(currentPart);
-      localStorage.setItem("currentPart", currentPart);
-      closeMenu();
-      alert("Прогресс загружен из ячейки " + (slotIndex + 1) + "!");
-    } else {
-      alert("В этой ячейке нет сохраненного прогресса!");
-    }
-  } else {
-    alert("Неправильный номер ячейки сохранения!");
-  }
+  currentPart = savedProgress[slotIndex];
+  displayStoryPart(currentPart);
+  localStorage.setItem("currentPart", currentPart);
+  closeMenu();
+  alert(`Прогресс загружен из ячейки ${slotIndex + 1}!`);
 }
 
 function updateMenuList() {
-  const menuList = document.getElementById('menuList');
-  menuList.innerHTML = "";
+  menuList.innerHTML = savedProgress.map((progress, i) => {
+    const text = `Ячейка ${i + 1}: ${progress !== null ? "Прогресс сохранен" : "Пусто"}`;
+    return `<li data-slot-index="${i}" onclick="handleMenuClick(${i})">${text}</li>`;
+  }).join('');
+}
 
-  for (let i = 0; i < MAX_SAVED_SLOTS; i++) {
-    const listItem = document.createElement('li');
-    listItem.textContent = "Ячейка " + (i + 1) + ": " + (savedProgress[i] !== null ? "Прогресс сохранен" : "Пусто");
-    listItem.dataset.slotIndex = i;
-    listItem.onclick = function () {
-      const slotIndex = parseInt(this.dataset.slotIndex, 10);
-      if (savedProgress[slotIndex] !== null) {
-        currentPart = savedProgress[slotIndex];
-        displayStoryPart(currentPart);
-        closeMenu();
-      } else {
-        alert("В этой ячейке нет сохраненного прогресса!");
-      }
-    };
-    menuList.appendChild(listItem);
+function handleMenuClick(slotIndex) {
+  if (savedProgress[slotIndex] !== null) {
+    currentPart = savedProgress[slotIndex];
+    displayStoryPart(currentPart);
+    closeMenu();
+  } else {
+    alert("В этой ячейке нет сохраненного прогресса!");
   }
 }
 
+function hideTitleScreen() {
+  document.getElementById('titleScreen').style.display = 'none';
+}
+
+function showTitleScreen() {
+  document.getElementById('titleScreen').style.display = 'flex';
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  playMusic();
+  showTitleScreen();
+});
+
 function toggleMusic() {
-  const musicControls = document.getElementById('musicControls');
-  musicControls.style.display = (musicControls.style.display === 'none') ? 'block' : 'none';
+  musicControls.style.display = musicControls.style.display === 'none' ? 'block' : 'none';
 }
 
 function playMusic() {
-  const audioElement = document.getElementById('backgroundMusic');
-  audioElement.play();
+  backgroundMusic.play();
   isMusicPlaying = true;
 }
 
 function pauseMusic() {
-  const audioElement = document.getElementById('backgroundMusic');
-  audioElement.pause();
+  backgroundMusic.pause();
   isMusicPlaying = false;
 }
 
 function setVolume(volume) {
-  const audioElement = document.getElementById('backgroundMusic');
-  audioElement.volume = parseFloat(volume);
+  backgroundMusic.volume = parseFloat(volume);
 }
 
-backgroundMusic.loop = true;
-backgroundMusic.volume = 0.5;
+document.addEventListener("DOMContentLoaded", playMusic);
 
-document.addEventListener("DOMContentLoaded", function () {
-  playMusic();
-});
+localStorage.setItem('backgroundMusic', JSON.stringify({ isMusicPlaying, currentPart }));
 
-localStorage.setItem('backgroundMusic', JSON.stringify({
-  isMusicPlaying,
-  currentPart
-}));
+displayStoryPart(currentPart);
+document.body.style.cursor = "pointer";
